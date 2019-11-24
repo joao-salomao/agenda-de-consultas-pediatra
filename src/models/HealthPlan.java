@@ -43,8 +43,44 @@ public class HealthPlan {
     
     public HealthPlan() {}
 
-    public HealthPlan(int id, String name) {
+    public HealthPlan(int id, String name, List<Patient> patients, int appointmentLimit) {
         this.id = id;
         this.name = name;
-    }    
+        this.patients = patients;
+        this.appointmentLimit = appointmentLimit;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
+    }
+
+    public int getAppointmentLimit() {
+        return appointmentLimit;
+    }
+
+    public void setAppointmentLimit(int appointmentLimit) {
+        this.appointmentLimit = appointmentLimit;
+    }
+    
+    
 }

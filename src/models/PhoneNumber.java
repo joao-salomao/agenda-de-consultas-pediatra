@@ -38,4 +38,45 @@ public class PhoneNumber {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     Patient patient;
+
+    public PhoneNumber(int id, String number, String ddd, Patient patient) {
+        this.id = id;
+        this.number = number;
+        this.ddd = ddd;
+        this.patient = patient;
+    }
+    
+    public PhoneNumber() {}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getDdd() {
+        return ddd;
+    }
+
+    public void setDdd(String ddd) {
+        this.ddd = ddd;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
 }

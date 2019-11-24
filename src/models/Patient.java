@@ -68,5 +68,92 @@ public class Patient {
         orphanRemoval = true
     )
     private List<Consultation> consultations;
+
+    public Patient(int id, String name, String address, Date birthDate, Date firstAppointmentDate, String email, HealthPlan healthPlan, List<PhoneNumber> numbers, List<Consultation> consultations) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.birthDate = birthDate;
+        this.firstAppointmentDate = firstAppointmentDate;
+        this.email = email;
+        this.healthPlan = healthPlan;
+        this.numbers = numbers;
+        this.consultations = consultations;
+    }
+    
+    public Patient() {}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public Date getFirstAppointmentDate() {
+        return firstAppointmentDate;
+    }
+
+    public void setFirstAppointmentDate(Date firstAppointmentDate) {
+        this.firstAppointmentDate = firstAppointmentDate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public HealthPlan getHealthPlan() {
+        return healthPlan;
+    }
+
+    public void setHealthPlan(HealthPlan healthPlan) {
+        this.healthPlan = healthPlan;
+    }
+
+    public List<PhoneNumber> getNumbers() {
+        return numbers;
+    }
+
+    public void setNumbers(List<PhoneNumber> numbers) {
+        this.numbers = numbers;
+    }
+
+    public List<Consultation> getConsultations() {
+        return consultations;
+    }
+
+    public void setConsultations(List<Consultation> consultations) {
+        this.consultations = consultations;
+    }
+    
     
 }
