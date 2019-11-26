@@ -5,6 +5,9 @@
     <!-- Lista de entidades/Model -->
     <class>models.HealthPlan</class>
     <class>models.Patient</class>
+    <class>models.Consultation</class>
+    <class>models.Schedule</class>
+    <class>models.PhoneNumber</class>
     <properties>
       <!-- Configuração do JDBC - igual na CLASSE CONEXAO-->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
