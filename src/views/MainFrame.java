@@ -41,7 +41,9 @@ public class MainFrame extends javax.swing.JFrame {
         tabbedPane = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1100, 435));
+        setPreferredSize(new java.awt.Dimension(1000, 435));
+
+        tabbedPane.setPreferredSize(new java.awt.Dimension(900, 435));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -49,7 +51,7 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 950, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

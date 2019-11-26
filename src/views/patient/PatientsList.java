@@ -35,7 +35,6 @@ public class PatientsList extends JInternalFrame {
         createTable();
         createFrame();
         
-        
     }
     
     public void createFrame() {
@@ -66,14 +65,14 @@ public class PatientsList extends JInternalFrame {
         tableModel.addColumn("DATA DE NASCIMENTO");
         tableModel.addColumn("DATA DA PRIMEIRA CONSULTA");
         
-//        table.getColumnModel().getColumn(0)
-//                .setPreferredWidth(10);
-//        table.getColumnModel().getColumn(1)
-//                .setPreferredWidth(120);
-//        table.getColumnModel().getColumn(1)
-//                .setPreferredWidth(80);
-//        table.getColumnModel().getColumn(1)
-//                .setPreferredWidth(120);
+        table.getColumnModel().getColumn(0)
+                .setPreferredWidth(10);
+        table.getColumnModel().getColumn(1)
+                .setPreferredWidth(120);
+        table.getColumnModel().getColumn(1)
+                .setPreferredWidth(80);
+        table.getColumnModel().getColumn(1)
+                .setPreferredWidth(120);
         addItemsToTable();
     }
 
