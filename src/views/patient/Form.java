@@ -5,6 +5,8 @@
  */
 package views.patient;
 
+import java.text.ParseException;
+import javax.swing.JOptionPane;
 import models.Patient;
 
 /**
@@ -16,9 +18,10 @@ public class Form extends javax.swing.JFrame {
     private final PatientsTable patientsTable;
     private Patient patient;
     private boolean isEdit;
-    
+
     /**
      * Creates new form Form
+     *
      * @param patientsList
      * @param edit
      */
@@ -27,9 +30,10 @@ public class Form extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         patientsTable = patientsList;
         isEdit = edit;
-        
+
         if (isEdit) {
-            patient =  patientsTable.getSelectedPatient();
+            patient = patientsTable.getSelectedPatient();
+            setTextFields();
         }
     }
 
@@ -188,14 +192,59 @@ public class Form extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void showDateErrorDialog() {
+        JOptionPane.showMessageDialog(this, "O Formato da data é DD/MM/YYYY");
+    }
+    
+    private void setTextFields() {
+         nameTextField.setText(patient.getName());
+         addressTextField.setText(patient.getAddress());
+         birthDateTextField.setText(patient.getBirthDate().toString());
+         emailTextField.setText(patient.getEmail());
+    }
+
+    private boolean edit() {
+        String name = nameTextField.getText();
+        String address = addressTextField.getText();
+        String email = emailTextField.getText();
+        String birthDate = birthDateTextField.getText();
+
+        patient.setName(name);
+        patient.setAddress(address);
+        patient.setEmail(email);
+
+        try {
+            patient.setBirthDate(birthDate);
+        } catch (ParseException e) {
+            System.out.println("ERRO AO CONVERTER STRING PARA DATA: " + e);
+            showDateErrorDialog();
+        }
+        
+        boolean result = patientsTable.updateRow(patient);
+        
+        if (result) {
+            setTextFields();
+        }
+        return result;
+    }
+
+
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         String name = nameTextField.getText();
         String address = addressTextField.getText();
         String email = emailTextField.getText();
         String birthDate = birthDateTextField.getText();
-        
-        patient = new Patient(name, address, email, birthDate);
-        
+
+        try {
+            patient = new Patient(name, address, email, birthDate);
+        } catch (ParseException e) {
+            System.out.println("ERRO AO CONVERTER STRING PARA DATA: " + e);
+            showDateErrorDialog();
+            return;
+        }
+
+        boolean result = patientsTable.addRow(patient);
+
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void leftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftButtonActionPerformed

@@ -81,7 +81,7 @@ public class PatientsTable extends JInternalFrame {
         tableModel.setNumRows(0);
         patients.forEach((p) -> {
             tableModel.addRow(new Object[]{p.getId(), p.getName(), p.getAddress(),
-                p.getEmail(), p.getHealthPlan().getName(), p.getBirthDate(), p.getFirstAppointmentDate()});
+                p.getEmail(), "IMPLEMENTAR", p.getBirthDate(), p.getFirstAppointmentDateString()});
         });
     }
 
@@ -90,10 +90,28 @@ public class PatientsTable extends JInternalFrame {
         return patients.get(index);
     }
 
-    public void addRow(Patient p) {
-        patients.add(p);
-        tableModel.addRow(new Object[]{p.getId(), p.getName(), p.getAddress(), p.getEmail(),
-            p.getHealthPlan().getName(), p.getBirthDate(), p.getFirstAppointmentDate()});
+    public boolean addRow(Patient p) {
+        boolean result = patientsController.store(p);
+        if (result) {
+            patients.add(p);
+            tableModel.addRow(new Object[]{p.getId(), p.getName(), p.getAddress(), p.getEmail(),
+                "IMPLEMENTAR", p.getBirthDate(), p.getFirstAppointmentDateString()});
+        }
+        return result;
+    }
+
+    public boolean updateRow(Patient p) {
+        boolean result = patientsController.update(p);
+        if (result) {
+            int index = patients.indexOf(p);
+            tableModel.setValueAt(p.getName(),index, 1);
+            tableModel.setValueAt(p.getAddress(),index, 2);
+            tableModel.setValueAt(p.getEmail(),index, 3);
+            tableModel.setValueAt("IMPLEMENTAR",index, 4);
+            tableModel.setValueAt(p.getBirthDate(),index, 5);
+            tableModel.setValueAt(p.getFirstAppointmentDateString(),index, 6);   
+        }
+        return result;
     }
 
 }

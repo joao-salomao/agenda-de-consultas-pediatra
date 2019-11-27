@@ -5,6 +5,8 @@
  */
 package models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -54,18 +56,18 @@ public class Patient {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "health_plan_id")
     HealthPlan healthPlan;
-    
+
     @OneToMany(
-        mappedBy = "patient",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
+            mappedBy = "patient",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     private List<PhoneNumber> numbers;
-    
+
     @OneToMany(
-        mappedBy = "patient",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
+            mappedBy = "patient",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     private List<Consultation> consultations;
 
@@ -80,16 +82,16 @@ public class Patient {
         this.numbers = numbers;
         this.consultations = consultations;
     }
-    
-    public Patient(String name, String address, String email, String birthDate) {
+
+    public Patient(String name, String address, String email, String birthDate) throws ParseException {
         this.name = name;
         this.address = address;
         this.email = email;
-        this.birthDate = new Date(birthDate);
+        setBirthDate(birthDate);
     }
-    
-    
-    public Patient() {}
+
+    public Patient() {
+    }
 
     public int getId() {
         return id;
@@ -123,8 +125,20 @@ public class Patient {
         this.birthDate = birthDate;
     }
 
+    public void setBirthDate(String birthDate) throws ParseException {
+        this.birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(birthDate);
+    }
+
     public Date getFirstAppointmentDate() {
         return firstAppointmentDate;
+    }
+
+    public String getFirstAppointmentDateString() {
+        if (firstAppointmentDate == null) {
+            return "";
+        } else {
+            return firstAppointmentDate.toString();
+        }
     }
 
     public void setFirstAppointmentDate(Date firstAppointmentDate) {
@@ -162,6 +176,5 @@ public class Patient {
     public void setConsultations(List<Consultation> consultations) {
         this.consultations = consultations;
     }
-    
-    
+
 }
