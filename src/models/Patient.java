@@ -81,6 +81,14 @@ public class Patient {
         this.consultations = consultations;
     }
     
+    public Patient(String name, String address, String email, String birthDate) {
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.birthDate = new Date(birthDate);
+    }
+    
+    
     public Patient() {}
 
     public int getId() {
