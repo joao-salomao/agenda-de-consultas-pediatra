@@ -53,7 +53,7 @@ public class Patient {
     @Column(name = "email", unique = true)
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "health_plan_id")
     HealthPlan healthPlan;
 
@@ -91,6 +91,14 @@ public class Patient {
     }
 
     public Patient() {
+    }
+
+    public Patient(String name, String address, String email, String birthDate, HealthPlan healthPlan) throws ParseException {
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.healthPlan = healthPlan;
+        setBirthDate(birthDate);
     }
 
     public int getId() {

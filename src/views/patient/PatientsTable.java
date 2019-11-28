@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import models.HealthPlan;
 import views.components.Button;
 
 /**
@@ -28,11 +29,13 @@ public class PatientsTable extends JInternalFrame {
     private JScrollPane scrollBar;
     private JPanel backgroundPane;
     private ArrayList<Patient> patients;
+    private ArrayList<HealthPlan> healthPlans;
     private final PatientsController patientsController;
     private final DefaultTableModel tableModel = new DefaultTableModel();
 
-    public PatientsTable(ArrayList<Patient> patientsList, PatientsController pController) {
+    public PatientsTable(ArrayList<Patient> patientsList, ArrayList<HealthPlan> healthPlansList,PatientsController pController) {
         patients = patientsList;
+        healthPlans = healthPlansList;
         patientsController = pController;
         createTable();
         createFrame();
@@ -112,6 +115,10 @@ public class PatientsTable extends JInternalFrame {
             tableModel.setValueAt(p.getFirstAppointmentDateString(),index, 6);   
         }
         return result;
+    }
+    
+    public ArrayList<HealthPlan> getHealthPlans() {
+        return healthPlans;
     }
 
 }

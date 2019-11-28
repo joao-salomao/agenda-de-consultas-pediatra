@@ -7,6 +7,7 @@ package views.patient;
 
 import java.text.ParseException;
 import javax.swing.JOptionPane;
+import models.HealthPlan;
 import models.Patient;
 
 /**
@@ -35,6 +36,8 @@ public class Form extends javax.swing.JFrame {
             patient = patientsTable.getSelectedPatient();
             setTextFields();
         }
+        setHealthPlansList();
+        getSelectedHealthPlan();
     }
 
     /**
@@ -82,6 +85,11 @@ public class Form extends javax.swing.JFrame {
 
         healthPlanComboBox.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         healthPlanComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        healthPlanComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                healthPlanComboBoxActionPerformed(evt);
+            }
+        });
 
         healthPlanLabel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         healthPlanLabel.setText("Plano de Saúde");
@@ -192,64 +200,94 @@ public class Form extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void setHealthPlansList() {
+        healthPlanComboBox.removeAllItems();
+
+        healthPlanComboBox.addItem("0 - SEM PLANO DE SAÚDE");
+
+        patientsTable.getHealthPlans().forEach(healthPlan -> {
+            healthPlanComboBox.addItem(mapperHealthPlanToForm(healthPlan));
+        });
+
+        if (isEdit) {
+            if (patient.getHealthPlan() != null) {
+                String patientHealthPlan = mapperHealthPlanToForm(patient.getHealthPlan());
+                healthPlanComboBox.setSelectedItem(patientHealthPlan);
+            }
+        }
+    }
+
+    private String mapperHealthPlanToForm(HealthPlan healthPlan) {
+        return Integer.toString(healthPlan.getId()) + " - " + healthPlan.getName();
+    }
+
     private void showDateErrorDialog() {
         JOptionPane.showMessageDialog(this, "O Formato da data é DD/MM/YYYY");
     }
-    
+
     private void setTextFields() {
-         nameTextField.setText(patient.getName());
-         addressTextField.setText(patient.getAddress());
-         birthDateTextField.setText(patient.getBirthDate().toString());
-         emailTextField.setText(patient.getEmail());
+        nameTextField.setText(patient.getName());
+        addressTextField.setText(patient.getAddress());
+        birthDateTextField.setText(patient.getBirthDate().toString());
+        emailTextField.setText(patient.getEmail());
+        setHealthPlansList();
     }
 
-    private boolean edit() {
+    private void setPatientAttributes() throws ParseException {
         String name = nameTextField.getText();
         String address = addressTextField.getText();
         String email = emailTextField.getText();
         String birthDate = birthDateTextField.getText();
+        HealthPlan healthPlan = getSelectedHealthPlan();
 
-        patient.setName(name);
-        patient.setAddress(address);
-        patient.setEmail(email);
-
-        try {
+        if (isEdit) {
+            patient.setName(name);
+            patient.setAddress(address);
+            patient.setEmail(email);
             patient.setBirthDate(birthDate);
-        } catch (ParseException e) {
-            System.out.println("ERRO AO CONVERTER STRING PARA DATA: " + e);
-            showDateErrorDialog();
+            patient.setHealthPlan(healthPlan);
+        } else {
+            patient = new Patient(name, address, email, birthDate, healthPlan);
         }
-        
-        boolean result = patientsTable.updateRow(patient);
-        
-        if (result) {
-            setTextFields();
-        }
-        return result;
     }
 
+    private HealthPlan getSelectedHealthPlan() {
+        HealthPlan healthPlan = null;
+        String healthPlanString = (String) healthPlanComboBox.getSelectedItem();
+        int id = Integer.parseInt(healthPlanString.split("-")[0].trim());
+
+        for (HealthPlan plan : patientsTable.getHealthPlans()) {
+            if (plan.getId() == id) {
+                healthPlan = plan;
+            }
+        }
+        return healthPlan;
+    }
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        String name = nameTextField.getText();
-        String address = addressTextField.getText();
-        String email = emailTextField.getText();
-        String birthDate = birthDateTextField.getText();
-
         try {
-            patient = new Patient(name, address, email, birthDate);
+            setPatientAttributes();
         } catch (ParseException e) {
             System.out.println("ERRO AO CONVERTER STRING PARA DATA: " + e);
             showDateErrorDialog();
-            return;
         }
+        
+        boolean result = isEdit ? patientsTable.updateRow(patient) : patientsTable.addRow(patient);
 
-        boolean result = patientsTable.addRow(patient);
+        if (result) {
+            setTextFields();
+            isEdit = true;
+        }
 
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void leftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftButtonActionPerformed
         dispose();
     }//GEN-LAST:event_leftButtonActionPerformed
+
+    private void healthPlanComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_healthPlanComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_healthPlanComboBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addressLabel;

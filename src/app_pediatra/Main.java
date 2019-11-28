@@ -5,11 +5,9 @@
  */
 package app_pediatra;
 
-import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import models.Patient;
 import views.MainFrame;
 
 /**
@@ -25,9 +23,6 @@ public class Main {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("persistence-unit");;
         EntityManager em = emf.createEntityManager();
         setLookAndFeel();
-        Patient p = em.find(Patient.class, 1);
-        ArrayList<Patient> list = new ArrayList<>();
-        list.add(p);
         new MainFrame().setVisible(true);
         //System.exit(1);
 //        Patient p = em.find(Patient.class,1);;
