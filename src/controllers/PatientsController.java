@@ -54,7 +54,19 @@ public class PatientsController {
             entityManager.getTransaction().commit();
             return true;
         } catch (Exception e) {
-            System.out.println("ERRO AO ATUALIZAR PACIENTE: "+e);
+            System.out.println("ERRO AO ATUALIZAR PACIENTE: " + e);
+        }
+        return false;
+    }
+
+    public boolean delete(Patient p) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(p);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            System.out.println("ERRO AO DELETAR USUÁRIO: " + e);
         }
         return false;
     }

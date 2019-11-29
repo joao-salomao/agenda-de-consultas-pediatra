@@ -5,9 +5,10 @@
  */
 package views.components;
 
-import java.awt.event.ActionEvent;
 import views.patient.Form;
+import java.awt.event.ActionEvent;
 import views.patient.PatientsTable;
+import views.consultations.ConsultationsTable;
 
 /**
  *
@@ -29,6 +30,10 @@ public class Button extends javax.swing.JButton {
                 break;
         }
     }
+    
+    public Button(String title , ConsultationsTable consultationTable, String operation) {
+        super(title);
+    }
 
     private void addNewPatientListener(PatientsTable patientsList) {
         this.addActionListener((ActionEvent e) -> {
@@ -44,7 +49,7 @@ public class Button extends javax.swing.JButton {
 
     private void addDeletePacientListener(PatientsTable patientsList) {
         this.addActionListener((ActionEvent e) -> {
-
+            patientsList.removeRow();
         });
     }
 }

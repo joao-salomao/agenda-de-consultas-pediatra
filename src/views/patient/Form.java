@@ -270,6 +270,7 @@ public class Form extends javax.swing.JFrame {
         } catch (ParseException e) {
             System.out.println("ERRO AO CONVERTER STRING PARA DATA: " + e);
             showDateErrorDialog();
+            return;
         }
         
         boolean result = isEdit ? patientsTable.updateRow(patient) : patientsTable.addRow(patient);

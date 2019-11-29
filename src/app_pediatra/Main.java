@@ -5,9 +5,13 @@
  */
 package app_pediatra;
 
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import models.Consultation;
+import models.Patient;
+import models.Schedule;
 import views.MainFrame;
 
 /**
@@ -25,7 +29,23 @@ public class Main {
         setLookAndFeel();
         new MainFrame().setVisible(true);
         //System.exit(1);
-//        Patient p = em.find(Patient.class,1);;
+        
+//        Patient p = em.find(Patient.class,1);
+//        Schedule s = em.find (Schedule.class, 1);
+//        
+//        Consultation c = new Consultation();
+//        
+//        c.setDate(new Date());
+//        c.setMaxDate(new Date());
+//        c.setPatient(p);
+//        c.setSchedule(s);
+//        c.setIsReview(true);
+//        c.setPeriod(new Date());
+//        
+//        em.getTransaction().begin();
+//        em.persist(c);
+//        em.getTransaction().commit();
+//        
 //        System.out.println(p.getName()+" "+p.getHealthPlan().getName());
 //        em.getTransaction().begin();
 //        em.persist(p);

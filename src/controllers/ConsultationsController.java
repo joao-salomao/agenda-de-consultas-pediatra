@@ -8,24 +8,24 @@ package controllers;
 import dao.Connection;
 import java.util.ArrayList;
 import javax.persistence.EntityManager;
-import models.HealthPlan;
+import models.Consultation;
 
 /**
  *
  * @author João Salomão
  */
-public class HealthPlansController {
+public class ConsultationsController {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
-    public HealthPlansController() {
+    public ConsultationsController() {
         entityManager = Connection.getEntityManager();
     }
 
-    public ArrayList<HealthPlan> all() {
+    public ArrayList<Consultation> all() {
         try {
-            ArrayList<HealthPlan> patients = (ArrayList<HealthPlan>) entityManager
-                    .createQuery("FROM HealthPlan as patients")
+            ArrayList<Consultation> patients = (ArrayList<Consultation>) entityManager
+                    .createQuery("FROM Consultation as consultations")
                     .getResultList();
             return patients;
         } catch (Exception e) {
@@ -33,5 +33,4 @@ public class HealthPlansController {
             return null;
         }
     }
-
 }

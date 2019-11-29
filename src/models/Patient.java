@@ -164,6 +164,10 @@ public class Patient {
     public HealthPlan getHealthPlan() {
         return healthPlan;
     }
+    
+    public String getHealthPlanName() {
+        return healthPlan == null ? "" : healthPlan.getName();
+    }
 
     public void setHealthPlan(HealthPlan healthPlan) {
         this.healthPlan = healthPlan;

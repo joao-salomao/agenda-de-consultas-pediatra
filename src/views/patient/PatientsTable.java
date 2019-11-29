@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import models.HealthPlan;
@@ -55,7 +56,6 @@ public class PatientsTable extends JInternalFrame {
         backgroundPane.add(BorderLayout.SOUTH, buttonsPane);
 
         getContentPane().add(backgroundPane);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
 
@@ -82,9 +82,9 @@ public class PatientsTable extends JInternalFrame {
 
     public void addItemsToTable() {
         tableModel.setNumRows(0);
-        patients.forEach((p) -> {
+        patients.forEach((Patient p) -> {
             tableModel.addRow(new Object[]{p.getId(), p.getName(), p.getAddress(),
-                p.getEmail(), "IMPLEMENTAR", p.getBirthDate(), p.getFirstAppointmentDateString()});
+                p.getEmail(), p.getHealthPlanName(), p.getBirthDate(), p.getFirstAppointmentDateString()});
         });
     }
 
@@ -98,7 +98,7 @@ public class PatientsTable extends JInternalFrame {
         if (result) {
             patients.add(p);
             tableModel.addRow(new Object[]{p.getId(), p.getName(), p.getAddress(), p.getEmail(),
-                "IMPLEMENTAR", p.getBirthDate(), p.getFirstAppointmentDateString()});
+                p.getHealthPlanName(), p.getBirthDate(), p.getFirstAppointmentDateString()});
         }
         return result;
     }
@@ -110,7 +110,7 @@ public class PatientsTable extends JInternalFrame {
             tableModel.setValueAt(p.getName(),index, 1);
             tableModel.setValueAt(p.getAddress(),index, 2);
             tableModel.setValueAt(p.getEmail(),index, 3);
-            tableModel.setValueAt("IMPLEMENTAR",index, 4);
+            tableModel.setValueAt(p.getHealthPlanName(),index, 4);
             tableModel.setValueAt(p.getBirthDate(),index, 5);
             tableModel.setValueAt(p.getFirstAppointmentDateString(),index, 6);   
         }
@@ -119,6 +119,19 @@ public class PatientsTable extends JInternalFrame {
     
     public ArrayList<HealthPlan> getHealthPlans() {
         return healthPlans;
+    }
+
+    public void removeRow() {
+        Patient p = getSelectedPatient();
+        int index = patients.indexOf(p);
+        
+        boolean result = patientsController.delete(p);
+        
+        if (result) {
+            JOptionPane.showMessageDialog(this, "O Paciente foi deletado com sucesso !");
+            tableModel.removeRow(index);
+            patients.remove(p);
+        }
     }
 
 }

@@ -5,12 +5,15 @@
  */
 package views;
 
+import controllers.ConsultationsController;
 import controllers.HealthPlansController;
 import controllers.PatientsController;
 import java.awt.Component;
 import java.util.ArrayList;
+import models.Consultation;
 import models.HealthPlan;
 import models.Patient;
+import views.consultations.ConsultationsTable;
 import views.patient.PatientsTable;
 
 /**
@@ -21,11 +24,14 @@ public class MainFrame extends javax.swing.JFrame {
 
     ArrayList<Patient> patients;
     ArrayList<HealthPlan> healthPlans;
+    ArrayList<Consultation> consultations;
     
     PatientsController patientsController;
     HealthPlansController healthPlansController;
+    ConsultationsController consultationsController;
     
     Component patientsListComponent;
+    Component consultationsListComponent;
     /**
      * Creates new form MainFrame
      */
@@ -35,11 +41,14 @@ public class MainFrame extends javax.swing.JFrame {
         
         patientsController = new PatientsController();
         healthPlansController = new HealthPlansController();
+        consultationsController = new ConsultationsController();
         
         patients = patientsController.all();
         healthPlans = healthPlansController.all();
+        consultations = consultationsController.all();
 
         patientsListComponent = tabbedPane.add(new PatientsTable(patients, healthPlans,patientsController));
+        consultationsListComponent = tabbedPane.add(new ConsultationsTable(consultations, consultationsController));
     }
     /**
      * This method is called from within the constructor to initialize the form.

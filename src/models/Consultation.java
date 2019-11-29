@@ -54,5 +54,74 @@ public class Consultation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
+    
+    public Consultation(){}
 
+    public Consultation(int id, Date date, Date period, Date maxDate, boolean isReview, Patient patient, Schedule schedule) {
+        this.id = id;
+        this.date = date;
+        this.period = period;
+        this.maxDate = maxDate;
+        this.isReview = isReview;
+        this.patient = patient;
+        this.schedule = schedule;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Date getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Date period) {
+        this.period = period;
+    }
+
+    public Date getMaxDate() {
+        return maxDate;
+    }
+
+    public void setMaxDate(Date maxDate) {
+        this.maxDate = maxDate;
+    }
+
+    public boolean isIsReview() {
+        return isReview;
+    }
+
+    public void setIsReview(boolean isReview) {
+        this.isReview = isReview;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+    
+    
 }
