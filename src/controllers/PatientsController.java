@@ -16,7 +16,7 @@ import models.Patient;
  */
 public class PatientsController {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public PatientsController() {
         entityManager = Connection.getEntityManager();

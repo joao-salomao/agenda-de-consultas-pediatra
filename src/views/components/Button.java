@@ -8,7 +8,7 @@ package views.components;
 import views.patient.Form;
 import java.awt.event.ActionEvent;
 import views.patient.PatientsTable;
-import views.consultations.ConsultationsTable;
+import views.consultation.ConsultationsTable;
 
 /**
  *

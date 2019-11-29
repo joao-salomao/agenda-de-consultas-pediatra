@@ -6,8 +6,11 @@
             <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/models/Consultation.java</file>
             <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/controllers/PatientsController.java</file>
             <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/views/MainFrame.java</file>
+            <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/views/consultation/ConsultationsTable.java</file>
+            <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/utils/Utils.java</file>
             <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/views/components/Button.java</file>
             <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/views/patient/Form.java</file>
+            <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/views/health_plan/HealthPlansTable.java</file>
             <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/META-INF/persistence.xml</file>
             <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/models/Patient.java</file>
             <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/views/patient/PatientsTable.java</file>
@@ -15,6 +18,7 @@
             <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/app_pediatra/Main.java</file>
             <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/controllers/HealthPlansController.java</file>
             <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/models/PhoneNumber.java</file>
+            <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/controllers/ConsultationsController.java</file>
             <file>file:/C:/Users/João%20Salomão/OneDrive/IFC/4º%20Semestre/POO%20II/AppPediatra2/src/dao/Connection.java</file>
         </group>
     </open-files>

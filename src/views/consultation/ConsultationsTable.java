@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.consultations;
+package views.consultation;
 
 import controllers.ConsultationsController;
 import java.awt.BorderLayout;

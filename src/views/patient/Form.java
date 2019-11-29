@@ -84,7 +84,6 @@ public class Form extends javax.swing.JFrame {
         birthDateLabel.setText("Data de Nascimento");
 
         healthPlanComboBox.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        healthPlanComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         healthPlanComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 healthPlanComboBoxActionPerformed(evt);
@@ -228,7 +227,7 @@ public class Form extends javax.swing.JFrame {
     private void setTextFields() {
         nameTextField.setText(patient.getName());
         addressTextField.setText(patient.getAddress());
-        birthDateTextField.setText(patient.getBirthDate().toString());
+        birthDateTextField.setText(patientsTable.mapperDateToForm(patient.getBirthDate()));
         emailTextField.setText(patient.getEmail());
         setHealthPlansList();
     }

@@ -11,12 +11,14 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import java.util.ArrayList;
 import java.awt.BorderLayout;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JScrollPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import models.HealthPlan;
+import utils.Utils;
 import views.components.Button;
 
 /**
@@ -34,7 +36,7 @@ public class PatientsTable extends JInternalFrame {
     private final PatientsController patientsController;
     private final DefaultTableModel tableModel = new DefaultTableModel();
 
-    public PatientsTable(ArrayList<Patient> patientsList, ArrayList<HealthPlan> healthPlansList,PatientsController pController) {
+    public PatientsTable(ArrayList<Patient> patientsList, ArrayList<HealthPlan> healthPlansList, PatientsController pController) {
         patients = patientsList;
         healthPlans = healthPlansList;
         patientsController = pController;
@@ -82,10 +84,19 @@ public class PatientsTable extends JInternalFrame {
 
     public void addItemsToTable() {
         tableModel.setNumRows(0);
-        patients.forEach((Patient p) -> {
+        String format = "dd/MM/yyyy";
+        patients.forEach((p) -> {
             tableModel.addRow(new Object[]{p.getId(), p.getName(), p.getAddress(),
-                p.getEmail(), p.getHealthPlanName(), p.getBirthDate(), p.getFirstAppointmentDateString()});
+                p.getEmail(), p.getHealthPlanName(), Utils.mapperDate(p.getBirthDate(), format), Utils.mapperDate(p.getFirstAppointmentDate(), format)});
         });
+    }
+
+    public String mapperDateToForm(Date date) {
+        if (date == null) {
+            return "";
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(date);
     }
 
     public Patient getSelectedPatient() {
@@ -107,16 +118,16 @@ public class PatientsTable extends JInternalFrame {
         boolean result = patientsController.update(p);
         if (result) {
             int index = patients.indexOf(p);
-            tableModel.setValueAt(p.getName(),index, 1);
-            tableModel.setValueAt(p.getAddress(),index, 2);
-            tableModel.setValueAt(p.getEmail(),index, 3);
-            tableModel.setValueAt(p.getHealthPlanName(),index, 4);
-            tableModel.setValueAt(p.getBirthDate(),index, 5);
-            tableModel.setValueAt(p.getFirstAppointmentDateString(),index, 6);   
+            tableModel.setValueAt(p.getName(), index, 1);
+            tableModel.setValueAt(p.getAddress(), index, 2);
+            tableModel.setValueAt(p.getEmail(), index, 3);
+            tableModel.setValueAt(p.getHealthPlanName(), index, 4);
+            tableModel.setValueAt(p.getBirthDate(), index, 5);
+            tableModel.setValueAt(p.getFirstAppointmentDateString(), index, 6);
         }
         return result;
     }
-    
+
     public ArrayList<HealthPlan> getHealthPlans() {
         return healthPlans;
     }
@@ -124,9 +135,9 @@ public class PatientsTable extends JInternalFrame {
     public void removeRow() {
         Patient p = getSelectedPatient();
         int index = patients.indexOf(p);
-        
+
         boolean result = patientsController.delete(p);
-        
+
         if (result) {
             JOptionPane.showMessageDialog(this, "O Paciente foi deletado com sucesso !");
             tableModel.removeRow(index);
