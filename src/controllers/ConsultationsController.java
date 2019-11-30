@@ -9,6 +9,7 @@ import dao.Connection;
 import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import models.Consultation;
+import models.Patient;
 
 /**
  *
@@ -32,5 +33,23 @@ public class ConsultationsController {
             System.out.println("ERRO AO PEGAR TODOS OS PLANOS DE SAÚDE DO BANCO: " + e.getMessage());
             return null;
         }
+    }
+    
+    public boolean store(Consultation c) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(c);
+            
+            if (c.getPatient().getFirstAppointmentDate() == null) {
+                Patient p = c.getPatient();
+                p.setFirstAppointmentDate(c.getDate());
+                entityManager.merge(p);
+            }
+            entityManager.getTransaction().commit();
+            return true;
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+        return false;
     }
 }

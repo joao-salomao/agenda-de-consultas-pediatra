@@ -18,6 +18,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.HealthPlan;
+import models.Schedule;
 import utils.Utils;
 import views.components.Button;
 
@@ -31,13 +32,15 @@ public class PatientsTable extends JInternalFrame {
     private JPanel buttonsPane;
     private JScrollPane scrollBar;
     private JPanel backgroundPane;
-    private ArrayList<Patient> patients;
-    private ArrayList<HealthPlan> healthPlans;
+    private final ArrayList<Patient> patients;
+    private final ArrayList<Schedule> schedules;
+    private final ArrayList<HealthPlan> healthPlans;
     private final PatientsController patientsController;
     private final DefaultTableModel tableModel = new DefaultTableModel();
 
-    public PatientsTable(ArrayList<Patient> patientsList, ArrayList<HealthPlan> healthPlansList, PatientsController pController) {
+    public PatientsTable(ArrayList<Patient> patientsList, ArrayList<HealthPlan> healthPlansList, ArrayList<Schedule> schedulesList,PatientsController pController) {
         patients = patientsList;
+        schedules = schedulesList;
         healthPlans = healthPlansList;
         patientsController = pController;
         createTable();
@@ -53,6 +56,7 @@ public class PatientsTable extends JInternalFrame {
         backgroundPane.setLayout(new BorderLayout());
         backgroundPane.add(BorderLayout.CENTER, scrollBar);
         buttonsPane.add(new Button("Cadastrar Novo Paciente", this, "createPacient"));
+        buttonsPane.add(new Button("Cadastrar Nova Consulta", this, "createAppointment"));
         buttonsPane.add(new Button("Editar Paciente", this, "editPacient"));
         buttonsPane.add(new Button("Deletar Pacientes", this, "deletePacient"));
         backgroundPane.add(BorderLayout.SOUTH, buttonsPane);
@@ -91,14 +95,6 @@ public class PatientsTable extends JInternalFrame {
         });
     }
 
-    public String mapperDateToForm(Date date) {
-        if (date == null) {
-            return "";
-        }
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        return formatter.format(date);
-    }
-
     public Patient getSelectedPatient() {
         int index = table.getSelectedRow();
         return patients.get(index);
@@ -109,7 +105,7 @@ public class PatientsTable extends JInternalFrame {
         if (result) {
             patients.add(p);
             tableModel.addRow(new Object[]{p.getId(), p.getName(), p.getAddress(), p.getEmail(),
-                p.getHealthPlanName(), p.getBirthDate(), p.getFirstAppointmentDateString()});
+                p.getHealthPlanName(), Utils.mapperDate(p.getBirthDate(), null), Utils.mapperDate(p.getFirstAppointmentDate(), null)});
         }
         return result;
     }
@@ -122,14 +118,18 @@ public class PatientsTable extends JInternalFrame {
             tableModel.setValueAt(p.getAddress(), index, 2);
             tableModel.setValueAt(p.getEmail(), index, 3);
             tableModel.setValueAt(p.getHealthPlanName(), index, 4);
-            tableModel.setValueAt(p.getBirthDate(), index, 5);
-            tableModel.setValueAt(p.getFirstAppointmentDateString(), index, 6);
+            tableModel.setValueAt(Utils.mapperDate(p.getBirthDate(), null), index, 5);
+            tableModel.setValueAt(Utils.mapperDate(p.getFirstAppointmentDate(), null), index, 6);
         }
         return result;
     }
 
     public ArrayList<HealthPlan> getHealthPlans() {
         return healthPlans;
+    }
+    
+    public ArrayList<Schedule> getSchedules() {
+        return schedules;
     }
 
     public void removeRow() {

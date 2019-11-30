@@ -67,6 +67,16 @@ public class Consultation {
         this.schedule = schedule;
     }
 
+    public Consultation(Date date, Date period, boolean isReview, Patient patient, Schedule schedule) {
+        this.date = date;
+        this.period = period;
+        this.isReview = isReview;
+        this.patient = patient;
+        this.schedule = schedule;
+    }
+    
+    
+    
     public int getId() {
         return id;
     }

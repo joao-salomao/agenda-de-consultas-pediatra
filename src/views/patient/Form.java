@@ -9,6 +9,7 @@ import java.text.ParseException;
 import javax.swing.JOptionPane;
 import models.HealthPlan;
 import models.Patient;
+import utils.Utils;
 
 /**
  *
@@ -227,7 +228,7 @@ public class Form extends javax.swing.JFrame {
     private void setTextFields() {
         nameTextField.setText(patient.getName());
         addressTextField.setText(patient.getAddress());
-        birthDateTextField.setText(patientsTable.mapperDateToForm(patient.getBirthDate()));
+        birthDateTextField.setText(Utils.mapperDate(patient.getBirthDate(), null));
         emailTextField.setText(patient.getEmail());
         setHealthPlansList();
     }

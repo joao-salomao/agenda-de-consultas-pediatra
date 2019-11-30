@@ -5,7 +5,6 @@
  */
 package views.components;
 
-import views.patient.Form;
 import java.awt.event.ActionEvent;
 import views.patient.PatientsTable;
 import views.consultation.ConsultationsTable;
@@ -15,10 +14,10 @@ import views.consultation.ConsultationsTable;
  * @author João Salomão
  */
 public class Button extends javax.swing.JButton {
-    
+
     public Button(String title, PatientsTable patientsList, String operation) {
         super(title);
-        switch(operation) {
+        switch (operation) {
             case "createPacient":
                 addNewPatientListener(patientsList);
                 break;
@@ -28,28 +27,37 @@ public class Button extends javax.swing.JButton {
             case "deletePacient":
                 addDeletePacientListener(patientsList);
                 break;
+            case "createAppointment":
+                addNewAppointmentListener(patientsList);
+                break;
         }
     }
-    
-    public Button(String title , ConsultationsTable consultationTable, String operation) {
+
+    public Button(String title, ConsultationsTable consultationTable, String operation) {
         super(title);
     }
 
-    private void addNewPatientListener(PatientsTable patientsList) {
+    private void addNewPatientListener(PatientsTable patientsTable) {
         this.addActionListener((ActionEvent e) -> {
-            new Form(patientsList, false).setVisible(true);
+            new views.patient.Form(patientsTable, false).setVisible(true);
         });
     }
 
-    private void addEditPatientListener(PatientsTable patientsList) {
+    private void addNewAppointmentListener(PatientsTable patientsTable) {
         this.addActionListener((ActionEvent e) -> {
-            new Form(patientsList, true).setVisible(true);
+            new views.consultation.Form(patientsTable, false).setVisible(true);
         });
     }
 
-    private void addDeletePacientListener(PatientsTable patientsList) {
+    private void addEditPatientListener(PatientsTable patientsTable) {
         this.addActionListener((ActionEvent e) -> {
-            patientsList.removeRow();
+            new views.patient.Form(patientsTable, true).setVisible(true);
+        });
+    }
+
+    private void addDeletePacientListener(PatientsTable patientsTable) {
+        this.addActionListener((ActionEvent e) -> {
+            patientsTable.removeRow();
         });
     }
 }

@@ -54,6 +54,7 @@ public class Main {
 
     public static void setLookAndFeel() {
         try {
+            javax.swing.UIManager.put("Label.font", new java.awt.Font("Arial", java.awt.Font.PLAIN, 14));
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());

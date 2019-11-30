@@ -5,35 +5,47 @@
  */
 package views;
 
-import controllers.ConsultationsController;
-import controllers.HealthPlansController;
-import controllers.PatientsController;
+// Models
+import models.Patient;
+import models.Schedule;
+import models.HealthPlan;
+import models.Consultation;
+
+// Utils
 import java.awt.Component;
 import java.util.ArrayList;
-import models.Consultation;
-import models.HealthPlan;
-import models.Patient;
-import views.consultation.ConsultationsTable;
-import views.health_plan.HealthPlansTable;
+
+// Views
 import views.patient.PatientsTable;
+import views.health_plan.HealthPlansTable;
+import views.consultation.ConsultationsTable;
+
+// Controllers
+import controllers.PatientsController;
+import controllers.SchedulesController;
+import controllers.HealthPlansController;
+import controllers.ConsultationsController;
 
 /**
  *
  * @author João Salomão
  */
+
 public class MainFrame extends javax.swing.JFrame {
 
     ArrayList<Patient> patients;
+    ArrayList<Schedule> schedules;
     ArrayList<HealthPlan> healthPlans;
     ArrayList<Consultation> consultations;
     
     PatientsController patientsController;
+    SchedulesController schedulesController;
     HealthPlansController healthPlansController;
     ConsultationsController consultationsController;
     
     Component patientsListComponent;
-    Component consultationsListComponent;
     Component healthPlansListComponent;
+    Component consultationsListComponent;
     /**
      * Creates new form MainFrame
      */
@@ -41,15 +53,18 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         
+        
         patientsController = new PatientsController();
+        schedulesController = new SchedulesController();
         healthPlansController = new HealthPlansController();
         consultationsController = new ConsultationsController();
         
         patients = patientsController.all();
+        schedules = schedulesController.all();
         healthPlans = healthPlansController.all();
         consultations = consultationsController.all();
 
-        patientsListComponent = tabbedPane.add(new PatientsTable(patients, healthPlans,patientsController));
+        patientsListComponent = tabbedPane.add(new PatientsTable(patients, healthPlans, schedules,patientsController));
         consultationsListComponent = tabbedPane.add(new ConsultationsTable(consultations, consultationsController));
         healthPlansListComponent = tabbedPane.add(new HealthPlansTable(healthPlans, healthPlansController));
     }
@@ -65,6 +80,8 @@ public class MainFrame extends javax.swing.JFrame {
         tabbedPane = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("App Pediatra");
+        setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1000, 435));
 
         tabbedPane.setPreferredSize(new java.awt.Dimension(900, 435));
