@@ -19,22 +19,29 @@ import views.patient.PatientsTable;
  */
 public class Form extends javax.swing.JFrame {
 
-    private Consultation consultation;
-    private Patient patient;
-    private final ArrayList<Schedule> schedules;
-    private final PatientsTable patientsTable;
     private boolean isEdit;
+    private Patient patient;
+    private Consultation consultation;
+    private final PatientsTable patientsTable;
+    private final ConsultationsTable consultationsTable;
+    private final ArrayList<Schedule> schedules;
+    private final ArrayList<Consultation> consultations;
 
     /**
      * Creates new form Form
      *
      * @param patientsTableList
+     * @param consultationsTableList
      * @param edit
      */
-    public Form(PatientsTable patientsTableList, boolean edit) {
+    public Form(PatientsTable patientsTableList, ConsultationsTable consultationsTableList, boolean edit) {
         initComponents();
+        
         patientsTable = patientsTableList;
-        schedules = patientsTable.getSchedules();
+        consultationsTable = consultationsTableList;
+        
+        schedules = consultationsTable.getSchedules();
+        consultations = consultationsTable.getConsultations();
         isEdit = edit;
 
         setSchedulesComboBoxList();
@@ -49,7 +56,7 @@ public class Form extends javax.swing.JFrame {
 
     private void setSchedulesComboBoxList() {
         schedules.forEach((s) -> {
-            schedulesComboBox.addItem(s.getClinicName());
+            schedulesComboBox.addItem(Utils.mapperObjectToComboBox(s.getClinicName(), s.getId()));
         });
     }
 

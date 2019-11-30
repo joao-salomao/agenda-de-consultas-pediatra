@@ -27,13 +27,18 @@ public class Button extends javax.swing.JButton {
             case "deletePacient":
                 addDeletePacientListener(patientsList);
                 break;
-            case "createAppointment":
-                addNewAppointmentListener(patientsList);
-                break;
         }
     }
 
-    public Button(String title, ConsultationsTable consultationTable, String operation) {
+    public Button(String title, PatientsTable patientsTable, ConsultationsTable consultationsTable, String operation) {
+        switch (operation) {
+            case "createAppointment":
+                addNewAppointmentListener(patientsTable, consultationsTable);
+                break;
+        }
+    }
+    
+    public Button(String title, ConsultationsTable consultationsTable, String operation) {
         super(title);
     }
 
@@ -43,9 +48,9 @@ public class Button extends javax.swing.JButton {
         });
     }
 
-    private void addNewAppointmentListener(PatientsTable patientsTable) {
+    private void addNewAppointmentListener(PatientsTable patientsTable, ConsultationsTable consultationsTable) {
         this.addActionListener((ActionEvent e) -> {
-            new views.consultation.Form(patientsTable, false).setVisible(true);
+            new views.consultation.Form(patientsTable, consultationsTable, false).setVisible(true);
         });
     }
 

@@ -17,10 +17,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import models.Consultation;
 import models.HealthPlan;
 import models.Schedule;
 import utils.Utils;
 import views.components.Button;
+import views.consultation.ConsultationsTable;
 
 /**
  *
@@ -33,16 +35,24 @@ public class PatientsTable extends JInternalFrame {
     private JScrollPane scrollBar;
     private JPanel backgroundPane;
     private final ArrayList<Patient> patients;
-    private final ArrayList<Schedule> schedules;
     private final ArrayList<HealthPlan> healthPlans;
     private final PatientsController patientsController;
+    private final ConsultationsTable consultationsTable;
     private final DefaultTableModel tableModel = new DefaultTableModel();
 
-    public PatientsTable(ArrayList<Patient> patientsList, ArrayList<HealthPlan> healthPlansList, ArrayList<Schedule> schedulesList,PatientsController pController) {
+    public PatientsTable(
+            ArrayList<Patient> patientsList, 
+            ArrayList<HealthPlan> healthPlansList, 
+            ConsultationsTable consultationsTableList,
+            PatientsController pController
+    ) {
         patients = patientsList;
-        schedules = schedulesList;
         healthPlans = healthPlansList;
+        
+        consultationsTable = consultationsTableList;
+                
         patientsController = pController;
+        
         createTable();
         createFrame();
 
@@ -56,7 +66,7 @@ public class PatientsTable extends JInternalFrame {
         backgroundPane.setLayout(new BorderLayout());
         backgroundPane.add(BorderLayout.CENTER, scrollBar);
         buttonsPane.add(new Button("Cadastrar Novo Paciente", this, "createPacient"));
-        buttonsPane.add(new Button("Cadastrar Nova Consulta", this, "createAppointment"));
+        buttonsPane.add(new Button("Cadastrar Nova Consulta", consultationsTable, "createAppointment"));
         buttonsPane.add(new Button("Editar Paciente", this, "editPacient"));
         buttonsPane.add(new Button("Deletar Pacientes", this, "deletePacient"));
         backgroundPane.add(BorderLayout.SOUTH, buttonsPane);
@@ -128,9 +138,6 @@ public class PatientsTable extends JInternalFrame {
         return healthPlans;
     }
     
-    public ArrayList<Schedule> getSchedules() {
-        return schedules;
-    }
 
     public void removeRow() {
         Patient p = getSelectedPatient();
@@ -144,5 +151,5 @@ public class PatientsTable extends JInternalFrame {
             patients.remove(p);
         }
     }
-
+    
 }

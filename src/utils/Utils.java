@@ -38,4 +38,8 @@ public final class Utils {
         }
         return date;
     }
+    
+    public static String mapperObjectToComboBox(String name, int id) {
+        return Integer.toString(id) + " - " + name;
+    }
 }

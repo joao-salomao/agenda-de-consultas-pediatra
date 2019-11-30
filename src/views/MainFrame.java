@@ -64,9 +64,13 @@ public class MainFrame extends javax.swing.JFrame {
         healthPlans = healthPlansController.all();
         consultations = consultationsController.all();
 
-        patientsListComponent = tabbedPane.add(new PatientsTable(patients, healthPlans, schedules,patientsController));
-        consultationsListComponent = tabbedPane.add(new ConsultationsTable(consultations, consultationsController));
-        healthPlansListComponent = tabbedPane.add(new HealthPlansTable(healthPlans, healthPlansController));
+        HealthPlansTable healthPlansTable = new HealthPlansTable(healthPlans, healthPlansController);
+        ConsultationsTable consultationsTable = new ConsultationsTable(consultations, schedules,consultationsController);
+        PatientsTable patientsTable = new PatientsTable(patients, healthPlans, consultationsTable, patientsController);
+        
+        patientsListComponent = tabbedPane.add(patientsTable);
+        healthPlansListComponent = tabbedPane.add(healthPlansTable);
+        consultationsListComponent = tabbedPane.add(consultationsTable);
     }
     /**
      * This method is called from within the constructor to initialize the form.

@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import models.Consultation;
+import models.Schedule;
 import views.components.Button;
 
 /**
@@ -27,13 +28,21 @@ public class ConsultationsTable extends JInternalFrame {
     private JScrollPane scrollBar;
     private JPanel backgroundPane;
     private final DefaultTableModel tableModel;
-    private ArrayList<Consultation> consultations;
+    private final ArrayList<Consultation> consultations;
+    private final ArrayList<Schedule> schedules;
     private ConsultationsController consultationsController;
 
-    public ConsultationsTable(ArrayList<Consultation> consultationsList, ConsultationsController cController) {
+    public ConsultationsTable(
+            ArrayList<Consultation> consultationsList,
+            ArrayList<Schedule> schedulesList,
+            ConsultationsController cController
+    ) {
         super();
         tableModel = new DefaultTableModel();
+        
         consultations = consultationsList;
+        schedules = schedulesList;
+        
         consultationsController = cController;
         createTable();
         createFrame();
@@ -80,5 +89,13 @@ public class ConsultationsTable extends JInternalFrame {
             tableModel.addRow(new Object[]{c.getId(), c.getDate().toString(), c.getPeriod().toString(),
                 c.isIsReview(), c.getPatient().getName(), c.getSchedule().getClinicName()});
         });
+    }
+    
+    public ArrayList<Consultation> getConsultations() {
+        return consultations;
+    }
+    
+    public ArrayList<Schedule> getSchedules() {
+        return schedules;
     }
 }
