@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import models.Consultation;
 import models.Schedule;
+import utils.Utils;
 import views.components.Button;
 
 /**
@@ -30,7 +31,7 @@ public class ConsultationsTable extends JInternalFrame {
     private final DefaultTableModel tableModel;
     private final ArrayList<Consultation> consultations;
     private final ArrayList<Schedule> schedules;
-    private ConsultationsController consultationsController;
+    private final ConsultationsController consultationsController;
 
     public ConsultationsTable(
             ArrayList<Consultation> consultationsList,
@@ -86,10 +87,41 @@ public class ConsultationsTable extends JInternalFrame {
     public void addItemsToTable() {
         tableModel.setNumRows(0);
         consultations.forEach((Consultation c) -> {
-            tableModel.addRow(new Object[]{c.getId(), c.getDate().toString(), c.getPeriod().toString(),
-                c.isIsReview(), c.getPatient().getName(), c.getSchedule().getClinicName()});
+            tableModel.addRow(new Object[]{
+                c.getId(), 
+                Utils.parseDateToString(c.getDate(), null), 
+                Utils.parseDateToString(c.getPeriod(), "hh:MM"),
+                c.isIsReview(),
+                c.getPatient().getName(),
+                c.getSchedule().getClinicName()
+            });
         });
     }
+    
+    public boolean addRow(Consultation c) {
+        boolean result = consultationsController.store(c);
+        if (result) {
+            consultations.add(c);
+            tableModel.addRow(new Object[]{
+                c.getId(), 
+                Utils.parseDateToString(c.getDate(), null), 
+                Utils.parseDateToString(c.getPeriod(), "hh:MM"),
+                c.isIsReview(),
+                c.getPatient().getName(),
+                c.getSchedule().getClinicName()
+            });
+        }
+        return result;
+    }
+    
+    public boolean updateRow(Consultation c) {
+        return true;
+    }
+    
+    public boolean removeRow() {
+        return true;
+    }
+    
     
     public ArrayList<Consultation> getConsultations() {
         return consultations;
@@ -97,5 +129,10 @@ public class ConsultationsTable extends JInternalFrame {
     
     public ArrayList<Schedule> getSchedules() {
         return schedules;
+    }
+
+    public Consultation getSelectedConsultation() {
+        int index = table.getSelectedRow();
+        return consultations.get(index);
     }
 }

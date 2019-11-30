@@ -31,6 +31,7 @@ public class Button extends javax.swing.JButton {
     }
 
     public Button(String title, PatientsTable patientsTable, ConsultationsTable consultationsTable, String operation) {
+        super(title);
         switch (operation) {
             case "createAppointment":
                 addNewAppointmentListener(patientsTable, consultationsTable);

@@ -36,10 +36,11 @@ public class Form extends javax.swing.JFrame {
      */
     public Form(PatientsTable patientsTableList, ConsultationsTable consultationsTableList, boolean edit) {
         initComponents();
-        
+        setLocationRelativeTo(null);
+
         patientsTable = patientsTableList;
         consultationsTable = consultationsTableList;
-        
+
         schedules = consultationsTable.getSchedules();
         consultations = consultationsTable.getConsultations();
         isEdit = edit;
@@ -47,11 +48,25 @@ public class Form extends javax.swing.JFrame {
         setSchedulesComboBoxList();
 
         if (isEdit) {
-
+            consultation = consultationsTable.getSelectedConsultation();
+            patient = consultation.getPatient();
         } else {
+            System.out.println("dentro o else");
             patient = patientsTable.getSelectedPatient();
         }
+        
+        setFieldsText();
+    }
+
+    private void setFieldsText() {
         patientNameTextField.setText(patient.getName());
+        if (isEdit) {
+            dateFormattedTextField.setText(Utils.parseDateToString(consultation.getDate(), null));
+            periodFormattedTextField.setText(Utils.parseDateToString(consultation.getPeriod(), null));
+            isRevisionToggleButton.setSelected(consultation.isIsReview());
+            String consultationSchedule = Utils.mapperObjectToComboBox(consultation.getSchedule().getClinicName(), consultation.getSchedule().getId());
+            schedulesComboBox.getModel().setSelectedItem(consultationSchedule);
+        }
     }
 
     private void setSchedulesComboBoxList() {
@@ -63,9 +78,10 @@ public class Form extends javax.swing.JFrame {
     private Schedule getSelectedSchedule() {
         Schedule schedule = null;
         String selected = (String) schedulesComboBox.getSelectedItem();
+        int id = Integer.parseInt(selected.split("-")[0].trim());
 
         for (Schedule s : schedules) {
-            if (s.getClinicName().equalsIgnoreCase(selected)) {
+            if (s.getId() == id) {
                 schedule = s;
             }
         }
@@ -266,10 +282,17 @@ public class Form extends javax.swing.JFrame {
         } else {
             Date date = Utils.parseStringToDate(dateFormattedTextField.getText(), "dd/MM/yyyy");
             Date time = Utils.parseStringToDate(periodFormattedTextField.getText(), "hh:mm");
-            Schedule clinic = getSelectedSchedule();
-            
-            consultation = new Consultation(date, time, isEdit, patient, clinic);
-            
+            Schedule schedule = getSelectedSchedule();
+
+            consultation = new Consultation(date, time, isEdit, patient, schedule);
+
+            boolean result = consultationsTable.addRow(consultation);
+
+            if (result) {
+                isEdit = true;
+
+            }
+
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 

@@ -33,19 +33,23 @@ import controllers.ConsultationsController;
 
 public class MainFrame extends javax.swing.JFrame {
 
+    // Lists
     ArrayList<Patient> patients;
     ArrayList<Schedule> schedules;
     ArrayList<HealthPlan> healthPlans;
     ArrayList<Consultation> consultations;
     
+    // // Controllers
     PatientsController patientsController;
     SchedulesController schedulesController;
     HealthPlansController healthPlansController;
     ConsultationsController consultationsController;
     
+    // Components
     Component patientsListComponent;
     Component healthPlansListComponent;
     Component consultationsListComponent;
+    
     /**
      * Creates new form MainFrame
      */
@@ -69,8 +73,8 @@ public class MainFrame extends javax.swing.JFrame {
         PatientsTable patientsTable = new PatientsTable(patients, healthPlans, consultationsTable, patientsController);
         
         patientsListComponent = tabbedPane.add(patientsTable);
-        healthPlansListComponent = tabbedPane.add(healthPlansTable);
         consultationsListComponent = tabbedPane.add(consultationsTable);
+        healthPlansListComponent = tabbedPane.add(healthPlansTable);
     }
     /**
      * This method is called from within the constructor to initialize the form.

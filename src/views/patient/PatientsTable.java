@@ -11,15 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import java.util.ArrayList;
 import java.awt.BorderLayout;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.JScrollPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import models.Consultation;
 import models.HealthPlan;
-import models.Schedule;
 import utils.Utils;
 import views.components.Button;
 import views.consultation.ConsultationsTable;
@@ -66,7 +62,7 @@ public class PatientsTable extends JInternalFrame {
         backgroundPane.setLayout(new BorderLayout());
         backgroundPane.add(BorderLayout.CENTER, scrollBar);
         buttonsPane.add(new Button("Cadastrar Novo Paciente", this, "createPacient"));
-        buttonsPane.add(new Button("Cadastrar Nova Consulta", consultationsTable, "createAppointment"));
+        buttonsPane.add(new Button("Cadastrar Nova Consulta", this, consultationsTable, "createAppointment"));
         buttonsPane.add(new Button("Editar Paciente", this, "editPacient"));
         buttonsPane.add(new Button("Deletar Pacientes", this, "deletePacient"));
         backgroundPane.add(BorderLayout.SOUTH, buttonsPane);
@@ -101,7 +97,7 @@ public class PatientsTable extends JInternalFrame {
         String format = "dd/MM/yyyy";
         patients.forEach((p) -> {
             tableModel.addRow(new Object[]{p.getId(), p.getName(), p.getAddress(),
-                p.getEmail(), p.getHealthPlanName(), Utils.mapperDate(p.getBirthDate(), format), Utils.mapperDate(p.getFirstAppointmentDate(), format)});
+                p.getEmail(), p.getHealthPlanName(), Utils.parseDateToString(p.getBirthDate(), format), Utils.parseDateToString(p.getFirstAppointmentDate(), format)});
         });
     }
 
@@ -115,7 +111,7 @@ public class PatientsTable extends JInternalFrame {
         if (result) {
             patients.add(p);
             tableModel.addRow(new Object[]{p.getId(), p.getName(), p.getAddress(), p.getEmail(),
-                p.getHealthPlanName(), Utils.mapperDate(p.getBirthDate(), null), Utils.mapperDate(p.getFirstAppointmentDate(), null)});
+                p.getHealthPlanName(), Utils.parseDateToString(p.getBirthDate(), null), Utils.parseDateToString(p.getFirstAppointmentDate(), null)});
         }
         return result;
     }
@@ -128,8 +124,8 @@ public class PatientsTable extends JInternalFrame {
             tableModel.setValueAt(p.getAddress(), index, 2);
             tableModel.setValueAt(p.getEmail(), index, 3);
             tableModel.setValueAt(p.getHealthPlanName(), index, 4);
-            tableModel.setValueAt(Utils.mapperDate(p.getBirthDate(), null), index, 5);
-            tableModel.setValueAt(Utils.mapperDate(p.getFirstAppointmentDate(), null), index, 6);
+            tableModel.setValueAt(Utils.parseDateToString(p.getBirthDate(), null), index, 5);
+            tableModel.setValueAt(Utils.parseDateToString(p.getFirstAppointmentDate(), null), index, 6);
         }
         return result;
     }

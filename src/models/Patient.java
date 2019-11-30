@@ -5,23 +5,21 @@
  */
 package models;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
+import java.util.Date;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
 import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
+import javax.persistence.TemporalType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -71,7 +69,17 @@ public class Patient {
     )
     private List<Consultation> consultations;
 
-    public Patient(int id, String name, String address, Date birthDate, Date firstAppointmentDate, String email, HealthPlan healthPlan, List<PhoneNumber> numbers, List<Consultation> consultations) {
+    public Patient(
+            int id, 
+            String name, 
+            String address, 
+            Date birthDate, 
+            Date firstAppointmentDate, 
+            String email, 
+            HealthPlan healthPlan, 
+            List<PhoneNumber> numbers, 
+            List<Consultation> consultations
+    ) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -83,22 +91,22 @@ public class Patient {
         this.consultations = consultations;
     }
 
-    public Patient(String name, String address, String email, String birthDate) throws ParseException {
+    public Patient(String name, String address, String email, Date birthDate) {
         this.name = name;
         this.address = address;
         this.email = email;
-        setBirthDate(birthDate);
+        this.birthDate = birthDate;
     }
 
     public Patient() {
     }
 
-    public Patient(String name, String address, String email, String birthDate, HealthPlan healthPlan) throws ParseException {
+    public Patient(String name, String address, String email, Date birthDate, HealthPlan healthPlan) {
         this.name = name;
         this.address = address;
         this.email = email;
         this.healthPlan = healthPlan;
-        setBirthDate(birthDate);
+        this.birthDate = birthDate;
     }
 
     public int getId() {
@@ -133,9 +141,6 @@ public class Patient {
         this.birthDate = birthDate;
     }
 
-    public void setBirthDate(String birthDate) throws ParseException {
-        this.birthDate = new SimpleDateFormat("dd/MM/yyyy").parse(birthDate);
-    }
 
     public Date getFirstAppointmentDate() {
         return firstAppointmentDate;

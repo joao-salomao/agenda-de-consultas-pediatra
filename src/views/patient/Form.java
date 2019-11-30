@@ -6,6 +6,7 @@
 package views.patient;
 
 import java.text.ParseException;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import models.HealthPlan;
 import models.Patient;
@@ -228,7 +229,7 @@ public class Form extends javax.swing.JFrame {
     private void setTextFields() {
         nameTextField.setText(patient.getName());
         addressTextField.setText(patient.getAddress());
-        birthDateTextField.setText(Utils.mapperDate(patient.getBirthDate(), null));
+        birthDateTextField.setText(Utils.parseDateToString(patient.getBirthDate(), null));
         emailTextField.setText(patient.getEmail());
         setHealthPlansList();
     }
@@ -237,7 +238,7 @@ public class Form extends javax.swing.JFrame {
         String name = nameTextField.getText();
         String address = addressTextField.getText();
         String email = emailTextField.getText();
-        String birthDate = birthDateTextField.getText();
+        Date birthDate = Utils.parseStringToDate(birthDateTextField.getText(), null);
         HealthPlan healthPlan = getSelectedHealthPlan();
 
         if (isEdit) {
