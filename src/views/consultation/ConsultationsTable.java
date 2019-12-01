@@ -8,6 +8,7 @@ package views.consultation;
 import controllers.ConsultationsController;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -40,10 +41,10 @@ public class ConsultationsTable extends JInternalFrame {
     ) {
         super();
         tableModel = new DefaultTableModel();
-        
+
         consultations = consultationsList;
         schedules = schedulesList;
-        
+
         consultationsController = cController;
         createTable();
         createFrame();
@@ -88,8 +89,8 @@ public class ConsultationsTable extends JInternalFrame {
         tableModel.setNumRows(0);
         consultations.forEach((Consultation c) -> {
             tableModel.addRow(new Object[]{
-                c.getId(), 
-                Utils.parseDateToString(c.getDate(), null), 
+                c.getId(),
+                Utils.parseDateToString(c.getDate(), null),
                 Utils.parseDateToString(c.getPeriod(), "hh:MM"),
                 c.isIsReview(),
                 c.getPatient().getName(),
@@ -97,14 +98,14 @@ public class ConsultationsTable extends JInternalFrame {
             });
         });
     }
-    
+
     public boolean addRow(Consultation c) {
         boolean result = consultationsController.store(c);
         if (result) {
             consultations.add(c);
             tableModel.addRow(new Object[]{
-                c.getId(), 
-                Utils.parseDateToString(c.getDate(), null), 
+                c.getId(),
+                Utils.parseDateToString(c.getDate(), null),
                 Utils.parseDateToString(c.getPeriod(), "hh:MM"),
                 c.isIsReview(),
                 c.getPatient().getName(),
@@ -113,20 +114,46 @@ public class ConsultationsTable extends JInternalFrame {
         }
         return result;
     }
-    
+
     public boolean updateRow(Consultation c) {
-        return true;
+        boolean result = consultationsController.update(c);
+        if (result) {
+            int index = consultations.indexOf(c);
+            tableModel.setValueAt(Utils.parseDateToString(c.getDate(), null), index, 1);
+            tableModel.setValueAt(Utils.parseDateToString(c.getPeriod(), "hh:MM"), index, 2);
+            tableModel.setValueAt(c.isIsReview(), index, 3);
+            tableModel.setValueAt(c.getPatient().getName(), index, 4);
+            tableModel.setValueAt(c.getSchedule().getClinicName(), index, 5);
+        }
+        return result;
     }
-    
+
+    public boolean canMarkConsultation(Date consultationDate) {
+        int count = 0;
+
+        for (Consultation c : consultations) {
+            if (c.getDate().compareTo(consultationDate) == 0) {
+                count++;
+            }
+        }
+        return count < 3;
+    }
+
     public boolean removeRow() {
-        return true;
+        Consultation c = getSelectedConsultation();
+        boolean result = consultationsController.delete(c);
+
+        if (result) {
+            tableModel.removeRow(consultations.indexOf(c));
+            consultations.remove(c);
+        }
+        return result;
     }
-    
-    
+
     public ArrayList<Consultation> getConsultations() {
         return consultations;
     }
-    
+
     public ArrayList<Schedule> getSchedules() {
         return schedules;
     }

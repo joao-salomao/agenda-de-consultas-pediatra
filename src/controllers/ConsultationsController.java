@@ -34,12 +34,12 @@ public class ConsultationsController {
             return null;
         }
     }
-    
+
     public boolean store(Consultation c) {
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(c);
-            
+
             if (c.getPatient().getFirstAppointmentDate() == null) {
                 Patient p = c.getPatient();
                 p.setFirstAppointmentDate(c.getDate());
@@ -47,8 +47,32 @@ public class ConsultationsController {
             }
             entityManager.getTransaction().commit();
             return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
+        }
+        return false;
+    }
+
+    public boolean delete(Consultation c) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(c);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            System.out.println("ERRO AO DELETAR CONSULTA DO BANCO: " + e);
+        }
+        return false;
+    }
+
+    public boolean update(Consultation c) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(c);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            System.out.println("ERRO AO ATUALIZAR A CONSULTA: " + e);
         }
         return false;
     }

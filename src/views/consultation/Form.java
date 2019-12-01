@@ -5,8 +5,10 @@
  */
 package views.consultation;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import models.Consultation;
 import models.Patient;
 import models.Schedule;
@@ -51,10 +53,9 @@ public class Form extends javax.swing.JFrame {
             consultation = consultationsTable.getSelectedConsultation();
             patient = consultation.getPatient();
         } else {
-            System.out.println("dentro o else");
             patient = patientsTable.getSelectedPatient();
         }
-        
+
         setFieldsText();
     }
 
@@ -62,7 +63,7 @@ public class Form extends javax.swing.JFrame {
         patientNameTextField.setText(patient.getName());
         if (isEdit) {
             dateFormattedTextField.setText(Utils.parseDateToString(consultation.getDate(), null));
-            periodFormattedTextField.setText(Utils.parseDateToString(consultation.getPeriod(), null));
+            periodFormattedTextField.setText(Utils.parseDateToString(consultation.getPeriod(), "hhMM"));
             isRevisionToggleButton.setSelected(consultation.isIsReview());
             String consultationSchedule = Utils.mapperObjectToComboBox(consultation.getSchedule().getClinicName(), consultation.getSchedule().getId());
             schedulesComboBox.getModel().setSelectedItem(consultationSchedule);
@@ -71,7 +72,8 @@ public class Form extends javax.swing.JFrame {
 
     private void setSchedulesComboBoxList() {
         schedules.forEach((s) -> {
-            schedulesComboBox.addItem(Utils.mapperObjectToComboBox(s.getClinicName(), s.getId()));
+            String clinicName = s.getClinicName() + " - " + DayOfWeek.of(s.getDayOfWeek()) + " - " + Utils.parseDateToString(s.getFirstAppointmentTime(), "hh:MM") + " ~ " + Utils.parseDateToString(s.getLastAppointmentTime(), "hh:MM");
+            schedulesComboBox.addItem(Utils.mapperObjectToComboBox(clinicName, s.getId()));
         });
     }
 
@@ -148,6 +150,11 @@ public class Form extends javax.swing.JFrame {
 
                 leftButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
                 leftButton.setText("Sair");
+                leftButton.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        leftButtonActionPerformed(evt);
+                    }
+                });
 
                 saveButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
                 saveButton.setText("Salvar");
@@ -276,25 +283,51 @@ public class Form extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
 
-        System.out.println(periodFormattedTextField.getText());
+        Date date = Utils.parseStringToDate(dateFormattedTextField.getText(), "dd/MM/yyyy");
+        Date time = Utils.parseStringToDate(periodFormattedTextField.getText(), "hh:mm");
+        Schedule schedule = getSelectedSchedule();
+        boolean isReview = isRevisionToggleButton.isSelected();
+        
+        if (!consultationsTable.canMarkConsultation(date)) {
+            JOptionPane.showMessageDialog(this, "Só são permitidas três consultas por dia.");
+            return;
+        }
+        
+        boolean result;
+        
         if (isEdit) {
-
+            consultation.setDate(date);
+            consultation.setPeriod(time);
+            consultation.setSchedule(schedule);
+            consultation.setIsReview(isReview);
+            
+            result = consultationsTable.updateRow(consultation);
+            
+            if (result) {
+                isEdit = true;
+                JOptionPane.showMessageDialog(this, "A consulta foi editada com sucesso !");
+            } else {
+                JOptionPane.showMessageDialog(this, "Algo deu errado e não foi possível editar a consulta.");
+            }
         } else {
-            Date date = Utils.parseStringToDate(dateFormattedTextField.getText(), "dd/MM/yyyy");
-            Date time = Utils.parseStringToDate(periodFormattedTextField.getText(), "hh:mm");
-            Schedule schedule = getSelectedSchedule();
 
-            consultation = new Consultation(date, time, isEdit, patient, schedule);
+            consultation = new Consultation(date, time, isReview, patient, schedule);
 
-            boolean result = consultationsTable.addRow(consultation);
+            result = consultationsTable.addRow(consultation);
 
             if (result) {
                 isEdit = true;
-
+                JOptionPane.showMessageDialog(this, "A consulta foi marcada com sucesso !");
+            } else {
+                JOptionPane.showMessageDialog(this, "Algo deu errado e não foi possível cadastrar a consulta.");
             }
 
         }
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void leftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftButtonActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_leftButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
