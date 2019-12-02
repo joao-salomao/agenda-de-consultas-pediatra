@@ -29,6 +29,7 @@ public class PatientsController {
             entityManager.getTransaction().commit();
             return true;
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             System.out.println("ERRO ALGO PERSISTIR PACIENTE NO BANCO DE DADOS: " + e.getMessage());
             System.out.println(e);
         }
@@ -54,6 +55,7 @@ public class PatientsController {
             entityManager.getTransaction().commit();
             return true;
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             System.out.println("ERRO AO ATUALIZAR PACIENTE: " + e);
         }
         return false;
@@ -66,6 +68,7 @@ public class PatientsController {
             entityManager.getTransaction().commit();
             return true;
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             System.out.println("ERRO AO DELETAR USUÁRIO: " + e);
         }
         return false;

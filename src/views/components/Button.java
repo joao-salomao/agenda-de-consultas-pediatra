@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import views.patient.PatientsTable;
 import views.consultation.ConsultationsTable;
+import views.health_plan.HealthPlansTable;
 
 /**
  *
@@ -51,6 +52,40 @@ public class Button extends javax.swing.JButton {
                 break;
 
         }
+    }
+
+    public Button(String title, HealthPlansTable healthPlansTable, String operation) {
+        super(title);
+        switch (operation) {
+            case "createHealthPlan":
+                addCreateHealthPlanListener(healthPlansTable);
+                break;
+            case "editHealthPlan":
+                editCreateHealthPlanListener(healthPlansTable);
+                break;
+            case "deleteHealthPlan":
+                deleteCreateHealthPlanListener(healthPlansTable);
+                break;
+
+        }
+    }
+
+    private void addCreateHealthPlanListener(HealthPlansTable healthPlansTable) {
+        addActionListener((ActionEvent e) -> {
+            new views.health_plan.Form(healthPlansTable, false).setVisible(true);
+        });
+    }
+
+    private void editCreateHealthPlanListener(HealthPlansTable healthPlansTable) {
+        addActionListener((ActionEvent e) -> {
+            new views.health_plan.Form(healthPlansTable, true).setVisible(true);
+        });
+    }
+    
+    private void deleteCreateHealthPlanListener(HealthPlansTable healthPlansTable) {
+        addActionListener((ActionEvent e) -> {
+            healthPlansTable.removeRow();
+        });
     }
 
     private void addDeleteConsultationListener(ConsultationsTable consultationsTable) {

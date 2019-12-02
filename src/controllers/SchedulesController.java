@@ -40,6 +40,7 @@ public class SchedulesController {
             entityManager.getTransaction().commit();
             return true;
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             System.out.println("ERRO AO SALVAR AGENDA NO BANCO: "+e);
         }
         return false;

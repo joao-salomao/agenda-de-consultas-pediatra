@@ -32,9 +32,9 @@ public class HealthPlan {
     private String name;
     
     @OneToMany(
-        mappedBy = "healthPlan",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
+        mappedBy = "healthPlan"
+        //cascade = CascadeType.REMOVE, 
+        //orphanRemoval = false
     )
     private List<Patient> patients;
     
@@ -43,6 +43,11 @@ public class HealthPlan {
     
     public HealthPlan() {}
 
+    public HealthPlan(String name, int lcm) {
+        this.name = name;
+        this.appointmentLimit = lcm;
+    }
+    
     public HealthPlan(int id, String name, List<Patient> patients, int appointmentLimit) {
         this.id = id;
         this.name = name;

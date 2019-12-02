@@ -75,6 +75,7 @@ public class MainFrame extends javax.swing.JFrame {
         patientsListComponent = tabbedPane.add(patientsTable);
         consultationsListComponent = tabbedPane.add(consultationsTable);
         healthPlansListComponent = tabbedPane.add(healthPlansTable);
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
