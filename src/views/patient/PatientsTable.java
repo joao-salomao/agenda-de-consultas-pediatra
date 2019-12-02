@@ -102,8 +102,15 @@ public class PatientsTable extends JInternalFrame {
     }
 
     public Patient getSelectedPatient() {
-        int index = table.getSelectedRow();
-        return patients.get(index);
+        Patient p = null;
+        try {
+            int index = table.getSelectedRow();
+            p = patients.get(index);
+        } catch (Exception e){
+            System.out.println(e);
+            JOptionPane.showMessageDialog(this, "Selecione um paciente para poder continuar.");
+        }
+        return p;
     }
 
     public boolean addRow(Patient p) {

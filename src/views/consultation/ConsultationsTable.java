@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -91,7 +92,7 @@ public class ConsultationsTable extends JInternalFrame {
             tableModel.addRow(new Object[]{
                 c.getId(),
                 Utils.parseDateToString(c.getDate(), null),
-                Utils.parseDateToString(c.getPeriod(), "hh:MM"),
+                Utils.parseDateToString(c.getPeriod(), "HH:mm"),
                 c.isIsReview(),
                 c.getPatient().getName(),
                 c.getSchedule().getClinicName()
@@ -106,7 +107,7 @@ public class ConsultationsTable extends JInternalFrame {
             tableModel.addRow(new Object[]{
                 c.getId(),
                 Utils.parseDateToString(c.getDate(), null),
-                Utils.parseDateToString(c.getPeriod(), "hh:MM"),
+                Utils.parseDateToString(c.getPeriod(), "HH:mm"),
                 c.isIsReview(),
                 c.getPatient().getName(),
                 c.getSchedule().getClinicName()
@@ -120,7 +121,7 @@ public class ConsultationsTable extends JInternalFrame {
         if (result) {
             int index = consultations.indexOf(c);
             tableModel.setValueAt(Utils.parseDateToString(c.getDate(), null), index, 1);
-            tableModel.setValueAt(Utils.parseDateToString(c.getPeriod(), "hh:MM"), index, 2);
+            tableModel.setValueAt(Utils.parseDateToString(c.getPeriod(), "HH:mm"), index, 2);
             tableModel.setValueAt(c.isIsReview(), index, 3);
             tableModel.setValueAt(c.getPatient().getName(), index, 4);
             tableModel.setValueAt(c.getSchedule().getClinicName(), index, 5);
@@ -128,15 +129,32 @@ public class ConsultationsTable extends JInternalFrame {
         return result;
     }
 
-    public boolean canMarkConsultation(Date consultationDate) {
+    public int canMarkConsultation(Date date, Date time, Date start, Date end) {
+        int result;
+        if (hasMoreThanTwoConsultations(date)) {
+            result = 1;
+        } else if (isLunchTime(time, start, end)) {
+            result = 2;
+        } else {
+            result = 0;
+        }
+        return result;
+    }
+
+    private boolean isLunchTime(Date time, Date start, Date end) {
+        return true;
+//return time.after(start) && time.before(end);
+    }
+
+    private boolean hasMoreThanTwoConsultations(Date date) {
         int count = 0;
 
         for (Consultation c : consultations) {
-            if (c.getDate().compareTo(consultationDate) == 0) {
+            if (c.getDate().compareTo(date) == 0) {
                 count++;
             }
         }
-        return count < 3;
+        return count > 2;
     }
 
     public boolean removeRow() {
@@ -159,7 +177,14 @@ public class ConsultationsTable extends JInternalFrame {
     }
 
     public Consultation getSelectedConsultation() {
-        int index = table.getSelectedRow();
-        return consultations.get(index);
+        Consultation c = null;
+        try {
+            int index = table.getSelectedRow();
+            c = consultations.get(index);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Selecione uma consulta para poder edita-la");
+            System.out.println(e);
+        }
+        return c;
     }
 }

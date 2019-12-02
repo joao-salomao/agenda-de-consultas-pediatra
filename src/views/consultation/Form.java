@@ -22,7 +22,7 @@ import views.patient.PatientsTable;
 public class Form extends javax.swing.JFrame {
 
     private boolean isEdit;
-    private Patient patient;
+    private final Patient patient;
     private Consultation consultation;
     private final PatientsTable patientsTable;
     private final ConsultationsTable consultationsTable;
@@ -63,7 +63,7 @@ public class Form extends javax.swing.JFrame {
         patientNameTextField.setText(patient.getName());
         if (isEdit) {
             dateFormattedTextField.setText(Utils.parseDateToString(consultation.getDate(), null));
-            periodFormattedTextField.setText(Utils.parseDateToString(consultation.getPeriod(), "hhMM"));
+            periodFormattedTextField.setText(Utils.parseDateToString(consultation.getPeriod(), "HHmm"));
             isRevisionToggleButton.setSelected(consultation.isIsReview());
             String consultationSchedule = Utils.mapperObjectToComboBox(consultation.getSchedule().getClinicName(), consultation.getSchedule().getId());
             schedulesComboBox.getModel().setSelectedItem(consultationSchedule);
@@ -72,9 +72,17 @@ public class Form extends javax.swing.JFrame {
 
     private void setSchedulesComboBoxList() {
         schedules.forEach((s) -> {
-            String clinicName = s.getClinicName() + " - " + DayOfWeek.of(s.getDayOfWeek()) + " - " + Utils.parseDateToString(s.getFirstAppointmentTime(), "hh:MM") + " ~ " + Utils.parseDateToString(s.getLastAppointmentTime(), "hh:MM");
+            String clinicName = getScheduleLabel(s);
             schedulesComboBox.addItem(Utils.mapperObjectToComboBox(clinicName, s.getId()));
         });
+    }
+    
+    private String getScheduleLabel(Schedule s) {
+        return (s.getClinicName() + " - " 
+                + DayOfWeek.of(s.getDayOfWeek()) + " - " 
+                + Utils.parseDateToString(s.getFirstAppointmentTime(), "HH:mm") + " ~ " 
+                + Utils.parseDateToString(s.getLastAppointmentTime(), "HH:mm")
+            );
     }
 
     private Schedule getSelectedSchedule() {
@@ -283,13 +291,19 @@ public class Form extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
 
-        Date date = Utils.parseStringToDate(dateFormattedTextField.getText(), "dd/MM/yyyy");
-        Date time = Utils.parseStringToDate(periodFormattedTextField.getText(), "hh:mm");
+        Date date = Utils.parseStringToDate(dateFormattedTextField.getText(), null);
+        Date time = Utils.parseStringToDate(periodFormattedTextField.getText(), "HH:mm");
         Schedule schedule = getSelectedSchedule();
         boolean isReview = isRevisionToggleButton.isSelected();
         
-        if (!consultationsTable.canMarkConsultation(date)) {
-            JOptionPane.showMessageDialog(this, "Só são permitidas três consultas por dia.");
+        System.out.println(schedule.getFirstAppointmentTime().toString()+" ~ "+schedule.getLastAppointmentTime().toString());
+        
+        int validation =  consultationsTable.canMarkConsultation(date, time, schedule.getInitialLunchTime(), schedule.getFinalLunchTime());
+        if (validation == 1) {
+            JOptionPane.showMessageDialog(this, "Somente é permitido marcar três consultas por dia");
+            return;
+        } else if (validation == 2) {
+            JOptionPane.showMessageDialog(this, "O horário da consulta conflita com o horário de almoço");
             return;
         }
         
@@ -304,7 +318,6 @@ public class Form extends javax.swing.JFrame {
             result = consultationsTable.updateRow(consultation);
             
             if (result) {
-                isEdit = true;
                 JOptionPane.showMessageDialog(this, "A consulta foi editada com sucesso !");
             } else {
                 JOptionPane.showMessageDialog(this, "Algo deu errado e não foi possível editar a consulta.");

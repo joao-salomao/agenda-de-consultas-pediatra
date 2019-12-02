@@ -15,7 +15,8 @@ import java.util.Date;
  */
 public final class Utils {
     
-    private static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
+    public static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
+    public static final String DEFAULT_TIME_FORMAT = "HH:mm";
     
     public static String parseDateToString(Date date, String format) {
         if (date == null) {
