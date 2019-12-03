@@ -174,7 +174,7 @@ public class Form extends javax.swing.JFrame {
                 .addComponent(healthPlanLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(healthPlanComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
                     .addComponent(leftButton))
@@ -275,10 +275,18 @@ public class Form extends javax.swing.JFrame {
         }
         
         boolean result = isEdit ? patientsTable.updateRow(patient) : patientsTable.addRow(patient);
-
+        
         if (result) {
+            if (isEdit) {
+                JOptionPane.showMessageDialog(this, "Os dados do paciente foram atualizados com sucesso.");
+            } else {
+                JOptionPane.showMessageDialog(this, "O paciente foi cadastrado com sucesso.");
+                isEdit = true;
+            }
             setTextFields();
-            isEdit = true;
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Algo deu errado, tente novamente.");
         }
 
     }//GEN-LAST:event_saveButtonActionPerformed

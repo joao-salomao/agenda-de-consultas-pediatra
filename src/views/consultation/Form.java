@@ -295,17 +295,24 @@ public class Form extends javax.swing.JFrame {
         Date time = Utils.parseStringToDate(periodFormattedTextField.getText(), "HH:mm");
         Schedule schedule = getSelectedSchedule();
         boolean isReview = isRevisionToggleButton.isSelected();
+        int appointmentLimit = patient.getHealthPlan() == null ? -1 : patient.getHealthPlan().getAppointmentLimit();
         
-        System.out.println(schedule.getFirstAppointmentTime().toString()+" ~ "+schedule.getLastAppointmentTime().toString());
+        int validation =  consultationsTable.canMarkConsultation(date, time, schedule.getInitialLunchTime(), 
+                schedule.getFinalLunchTime(), appointmentLimit, patient.getConsultations(), schedule.getFirstAppointmentTime(), schedule.getLastAppointmentTime());
         
-        int validation =  consultationsTable.canMarkConsultation(date, time, schedule.getInitialLunchTime(), schedule.getFinalLunchTime());
         if (validation == 1) {
             JOptionPane.showMessageDialog(this, "Somente é permitido marcar três consultas por dia");
             return;
         } else if (validation == 2) {
             JOptionPane.showMessageDialog(this, "O horário da consulta conflita com o horário de almoço");
             return;
-        }
+         } else if (validation == 3) {
+             JOptionPane.showMessageDialog(this, "O paciente atingiu o limite de consultas mensais do plano de saúde");
+            return;
+         } else if (validation == 4) {
+             JOptionPane.showMessageDialog(this, "O horário da consulta está fora do horário de atendimento");
+            return;
+         }
         
         boolean result;
         

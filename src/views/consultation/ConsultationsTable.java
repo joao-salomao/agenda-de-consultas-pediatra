@@ -8,7 +8,9 @@ package views.consultation;
 import controllers.ConsultationsController;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -129,21 +131,56 @@ public class ConsultationsTable extends JInternalFrame {
         return result;
     }
 
-    public int canMarkConsultation(Date date, Date time, Date start, Date end) {
-        int result;
+    public int canMarkConsultation(
+            Date date, 
+            Date time, 
+            Date start, 
+            Date end, 
+            int consultationsCount, 
+            List<Consultation> consultations, 
+            Date firstApp, 
+            Date lastApp
+    ) {
+        int result = 0;
+        
         if (hasMoreThanTwoConsultations(date)) {
             result = 1;
         } else if (isLunchTime(time, start, end)) {
             result = 2;
-        } else {
-            result = 0;
+        } else if (!healthPlanAllow(consultations, date, consultationsCount)) {
+            result = 3;
+        } else if (isAfterOrBeforeAppointmentsTime(time, firstApp, lastApp)) {
+            result = 4;
         }
         return result;
     }
 
     private boolean isLunchTime(Date time, Date start, Date end) {
-        return true;
-//return time.after(start) && time.before(end);
+        return time.after(start) && time.before(end);
+    }
+
+    private boolean healthPlanAllow(List<Consultation> consultations, Date date, int appointmentLimit) {
+        if (appointmentLimit < 0) {
+            return true;
+        }
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        int count = 1;
+        
+        for (Consultation c : consultations) {
+            calendar.setTime(c.getDate());
+            if (month == calendar.get(Calendar.MONTH) && year == calendar.get(Calendar.YEAR)) {
+                count++;
+            }
+        }
+        return count <= appointmentLimit;
+    }
+    
+    private boolean isAfterOrBeforeAppointmentsTime(Date time, Date firstApp, Date lastApp) {
+        return time.before(firstApp) || time.after(lastApp);
     }
 
     private boolean hasMoreThanTwoConsultations(Date date) {
