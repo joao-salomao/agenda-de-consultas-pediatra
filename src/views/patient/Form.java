@@ -57,7 +57,6 @@ public class Form extends javax.swing.JFrame {
         addressLabel = new javax.swing.JLabel();
         addressTextField = new javax.swing.JTextField();
         nameLabel = new javax.swing.JLabel();
-        birthDateTextField = new javax.swing.JTextField();
         birthDateLabel = new javax.swing.JLabel();
         healthPlanComboBox = new javax.swing.JComboBox<>();
         healthPlanLabel = new javax.swing.JLabel();
@@ -65,56 +64,60 @@ public class Form extends javax.swing.JFrame {
         emailLabel = new javax.swing.JLabel();
         saveButton = new javax.swing.JButton();
         leftButton = new javax.swing.JButton();
+        try {
+            birthDateFormattedTextField = new javax.swing.JFormattedTextField(new javax.swing.text.MaskFormatter("##/##/####"));
 
-        jFormattedTextField1.setText("jFormattedTextField1");
+            jFormattedTextField1.setText("jFormattedTextField1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        nameTextField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+            nameTextField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        addressLabel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        addressLabel.setText("Endereço");
+            addressLabel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+            addressLabel.setText("Endereço");
 
-        addressTextField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+            addressTextField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        nameLabel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        nameLabel.setText("Nome");
+            nameLabel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+            nameLabel.setText("Nome");
 
-        birthDateTextField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+            birthDateLabel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+            birthDateLabel.setText("Data de Nascimento");
 
-        birthDateLabel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        birthDateLabel.setText("Data de Nascimento");
+            healthPlanComboBox.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+            healthPlanComboBox.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    healthPlanComboBoxActionPerformed(evt);
+                }
+            });
 
-        healthPlanComboBox.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        healthPlanComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                healthPlanComboBoxActionPerformed(evt);
-            }
-        });
+            healthPlanLabel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+            healthPlanLabel.setText("Plano de Saúde");
 
-        healthPlanLabel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        healthPlanLabel.setText("Plano de Saúde");
+            emailTextField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        emailTextField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+            emailLabel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+            emailLabel.setText("Email");
 
-        emailLabel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        emailLabel.setText("Email");
+            saveButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+            saveButton.setText("Salvar");
+            saveButton.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    saveButtonActionPerformed(evt);
+                }
+            });
 
-        saveButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        saveButton.setText("Salvar");
-        saveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveButtonActionPerformed(evt);
-            }
-        });
+            leftButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+            leftButton.setText("Sair");
+            leftButton.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    leftButtonActionPerformed(evt);
+                }
+            });
 
-        leftButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        leftButton.setText("Sair");
-        leftButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                leftButtonActionPerformed(evt);
-            }
-        });
+        } catch (Exception e) { System.out.println("ERRO FORMATED TEXT Field: "+e); }
+        birthDateFormattedTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        birthDateFormattedTextField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -135,8 +138,8 @@ public class Form extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(birthDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(birthDateLabel))
+                                    .addComponent(birthDateLabel)
+                                    .addComponent(birthDateFormattedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(emailLabel)
@@ -167,9 +170,9 @@ public class Form extends javax.swing.JFrame {
                     .addComponent(birthDateLabel)
                     .addComponent(emailLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(birthDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(emailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(birthDateFormattedTextField))
                 .addGap(18, 18, 18)
                 .addComponent(healthPlanLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -229,7 +232,7 @@ public class Form extends javax.swing.JFrame {
     private void setTextFields() {
         nameTextField.setText(patient.getName());
         addressTextField.setText(patient.getAddress());
-        birthDateTextField.setText(Utils.parseDateToString(patient.getBirthDate(), null));
+        birthDateFormattedTextField.setText(Utils.parseDateToString(patient.getBirthDate(), "ddmmyyyy"));
         emailTextField.setText(patient.getEmail());
         setHealthPlansList();
     }
@@ -238,7 +241,7 @@ public class Form extends javax.swing.JFrame {
         String name = nameTextField.getText();
         String address = addressTextField.getText();
         String email = emailTextField.getText();
-        Date birthDate = Utils.parseStringToDate(birthDateTextField.getText(), null);
+        Date birthDate = Utils.parseStringToDate(birthDateFormattedTextField.getText(), null);
         HealthPlan healthPlan = getSelectedHealthPlan();
 
         if (isEdit) {
@@ -302,8 +305,8 @@ public class Form extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addressLabel;
     private javax.swing.JTextField addressTextField;
+    private javax.swing.JFormattedTextField birthDateFormattedTextField;
     private javax.swing.JLabel birthDateLabel;
-    private javax.swing.JTextField birthDateTextField;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailTextField;
     private javax.swing.JComboBox<String> healthPlanComboBox;
