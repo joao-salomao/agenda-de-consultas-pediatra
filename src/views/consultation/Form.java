@@ -300,19 +300,22 @@ public class Form extends javax.swing.JFrame {
         int validation =  consultationsTable.canMarkConsultation(date, time, schedule.getInitialLunchTime(), 
                 schedule.getFinalLunchTime(), appointmentLimit, patient.getConsultations(), schedule.getFirstAppointmentTime(), schedule.getLastAppointmentTime());
         
-        if (validation == 1) {
-            JOptionPane.showMessageDialog(this, "Somente é permitido marcar três consultas por dia");
-            return;
-        } else if (validation == 2) {
-            JOptionPane.showMessageDialog(this, "O horário da consulta conflita com o horário de almoço");
-            return;
-         } else if (validation == 3) {
-             JOptionPane.showMessageDialog(this, "O paciente atingiu o limite de consultas mensais do plano de saúde");
-            return;
-         } else if (validation == 4) {
-             JOptionPane.showMessageDialog(this, "O horário da consulta está fora do horário de atendimento");
-            return;
-         }
+        switch (validation) {
+            case 1:
+                JOptionPane.showMessageDialog(this, "Somente é permitido marcar três consultas por dia");
+                return;
+            case 2:
+                JOptionPane.showMessageDialog(this, "O horário da consulta conflita com o horário de almoço");
+                return;
+            case 3:
+                JOptionPane.showMessageDialog(this, "O paciente atingiu o limite de consultas mensais do plano de saúde");
+                return;
+            case 4:
+                JOptionPane.showMessageDialog(this, "O horário da consulta está fora do horário de atendimento");
+                return;
+            default:
+                break;
+        }
         
         boolean result;
         
